@@ -9,16 +9,6 @@ if true then return {} end
 -- * disable/enabled LazyVim plugins
 -- * override the configuration of LazyVim plugins
 return {
-  -- add gruvbox
-  { "ellisonleao/gruvbox.nvim" },
-
-  -- Configure LazyVim to load gruvbox
-  {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "gruvbox",
-    },
-  },
 
   -- change trouble config
   {
@@ -156,27 +146,24 @@ return {
   {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
-    opts = {
-      options = {
-        component_separators = "",
-        section_separators = { left = "", right = "" },
-      },
-      sections = {
-        lualine_a = { { "mode", separator = { left = "" }, right_padding = 2 } },
-        lualine_y = {
-          { "progress", separator = " ", padding = { left = 1, right = 0 } },
-          { "location", padding = { left = 0, right = 1 } },
-        },
-        lualine_z = {
-          {
-            function()
-              return " " .. os.date("%R")
-            end,
-            separator = { right = "" },
-          },
-        },
-      },
-    },
+    opts = function(_, opts)
+      table.insert(opts.sections.lualine_x, {
+        function()
+          return "😄"
+        end,
+      })
+    end,
+  },
+
+  -- or you can return new options to override all the defaults
+  {
+    "nvim-lualine/lualine.nvim",
+    event = "VeryLazy",
+    opts = function()
+      return {
+        --[[add your custom lualine config here]]
+      }
+    end,
   },
 
   -- use mini.starter instead of alpha
